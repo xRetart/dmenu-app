@@ -1,0 +1,24 @@
+#! /usr/bin/env sh
+
+# fail immediately if any error occurs
+set -e
+
+# write to stderr and exit failure
+fail() { >&2 echo $@; exit 1; }
+
+
+# set dependencies
+LAUNCH=gtk-launch
+MENU=dmenu
+
+# check dependencies
+for DEPENDENCY in $LAUNCH $MENU
+do
+	! command -v $DEPENDENCY > /dev/null &&
+		fail "$DEPENDENCY is not installed"
+done
+
+
+# run app
+APP=$(basename --suffix=.desktop /usr/share/applications/*.desktop | $MENU) || exit 0
+$LAUNCH $APP
