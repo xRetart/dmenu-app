@@ -20,5 +20,10 @@ done
 
 
 # run app
-APP=$(basename --suffix=.desktop /usr/share/applications/*.desktop | $MENU) || exit 0
+for FILE in $(ls /usr/share/applications/*.desktop);
+do
+	APPS="${APPS:+"$APPS\n"}$(basename $FILE .desktop)"
+done
+
+APP=$(echo $APPS | $MENU) || exit 0
 $LAUNCH $APP
