@@ -1,7 +1,7 @@
 include config.mk
 
 SRC_DIR = src
-OBJ_DIR = obj
+OBJ_DIR = bin
 SRC = $(SRC_DIR)/dmenu.c $(SRC_DIR)/drw.c $(SRC_DIR)/util.c
 OBJ = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 HEADERS = $(SRC_DIR)/arg.h $(SRC_DIR)/config.h $(SRC_DIR)/drw.h
@@ -15,7 +15,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) -c -o $@ $(CFLAGS) $<
 
 clean:
-	$(RM) dmenu $(OBJ) dmenu-$(VERSION).tar.gz
+	$(RM) -r dmenu $(OBJ_DIR) dmenu-$(VERSION).tar.gz
 
 dist: clean
 	tar --create --auto-compress --file=dmenu-$(VERSION).tar.zst *
@@ -28,4 +28,4 @@ install: dmenu dmenu-app
 	install --mode=755 dmenu-app $(DESTDIR)$(PREFIX)/bin/dmenu-app
 
 uninstall:
-	$(RM) $(DESTDIR)$(PREFIX)/bin/dmenu $(DESTDIR)$(MANPREFIX)/man1/dmenu.1
+	$(RM) $(DESTDIR)$(PREFIX)/bin/dmenu $(DESTDIR)$(PREFIX)/bin/dmenu-app $(DESTDIR)$(MANPREFIX)/man1/dmenu.1
